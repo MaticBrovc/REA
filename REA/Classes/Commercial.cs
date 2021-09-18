@@ -5,12 +5,14 @@ using System.Text;
 
 namespace REA
 {
+    //Enumerator with available choices for comercial estates
     public enum Comercials
     {
         Shop,
         Warehouse
     }
 
+    //An enumerator that declares what type of Shop/Warehouse it is.
     public enum ShopType
     {
         electronic,
@@ -18,13 +20,13 @@ namespace REA
         bike,
     }
 
-    public class Commercial : Estate
+    public abstract class Commercial : Estate
     {
+        //Define private variables
         private ShopType shopType;
         private int size;
 
-        public Commercial() { }
-
+        //Getters and Setters
         public ShopType ShopType
         {
             get { return shopType; }
@@ -35,12 +37,6 @@ namespace REA
         {
             get { return size; }
             set { size = value; }
-        }
-
-        public Commercial(ShopType st, int s)
-        {
-            shopType = st;
-            size = s;
         }
     }
 }

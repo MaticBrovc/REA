@@ -7,5 +7,13 @@ namespace REA
 {
     public class Tenement : Appartment
     {
+        //Default constructor
+        public Tenement() { }
+
+        //Constructor that gets the number of rooms in the estate
+        public Tenement(int rooms)
+        {
+            NumberOfRooms = rooms;
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace REA
 {
+    //Enumerator used for comboboxes and easier navigation through them
     public enum Estates
     {
         Residential,
@@ -15,10 +16,14 @@ namespace REA
 
     public abstract class Estate : IEstate
     {
+        //Define private variables from the Interface
         private int t_ID;
 
         private Address t_address;
 
+        private string t_imagePath;
+
+        //Getters and Setters for the variables
         public int ID
         {
             get { return t_ID; }
@@ -30,28 +35,21 @@ namespace REA
             set { t_address = value; }
         }
 
-        public Estate() { }
-
-        public Estate(int id, Address a)
+        public string ImagePath
         {
-            t_ID = id;
-            t_address = a;
+            get { return t_imagePath; }
+            set { t_imagePath = value; }
         }
 
-
+        //Function that will be implemented in other clases
         public double Cost()
         {
             throw new NotImplementedException();
         }
 
-        public string getAddress()
-        {
-            return t_address.ToString();
-        }
-
         public override string ToString()
         {
-            return "" + ID + " " + t_address.ToString();
+            return "(" +ID + ") " +  t_address.ToString();
         }
     }
 }
