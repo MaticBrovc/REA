@@ -13,6 +13,13 @@ namespace REA
         Institutional
     }
 
+    public enum LegalForm
+    {
+        Ownership,
+        Tenement,
+        Rental
+    }
+
 
     public abstract class Estate : IEstate
     {
@@ -22,6 +29,8 @@ namespace REA
         private Address t_address;
 
         private string t_imagePath;
+
+        private LegalForm t_legalForm;
 
         //Getters and Setters for the variables
         public int ID
@@ -41,11 +50,14 @@ namespace REA
             set { t_imagePath = value; }
         }
 
-        //Function that will be implemented in other clases
-        public double Cost()
+        public LegalForm LegalForm
         {
-            throw new NotImplementedException();
+            get { return t_legalForm; }
+            set { t_legalForm = value; }
         }
+
+        //Function that will be implemented in other clases
+        public abstract double Cost();
 
         public override string ToString()
         {

@@ -22,6 +22,8 @@ namespace REA
         //Create a filedialog
         private OpenFileDialog file = new OpenFileDialog();
 
+        private System.Drawing.Image placeholder;
+
         public MainForm()
         {
             InitializeComponent();
@@ -32,16 +34,10 @@ namespace REA
             cbEstate.DataSource = Enum.GetValues(typeof(Estates));
             cbStudy.DataSource = Enum.GetValues(typeof(StudyField));
             cbStore.DataSource = Enum.GetValues(typeof(ShopType));
+            cbLegal.DataSource = Enum.GetValues(typeof(LegalForm));
 
-        }
+            placeholder = pictureBox1.Image;
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -107,11 +103,15 @@ namespace REA
                     case Estates.Residential:
                         if (!string.IsNullOrEmpty(txtRooms.Text))
                         {
+                            //Parse number of rooms from string to int
+                            //Remove the error color if set
                             int rooms = Int32.Parse(txtRooms.Text);
                             labelRooms.ForeColor = Color.Black;
+                            //Get the selected type of building
                             Residentials res = (Residentials)cbBuilding.SelectedIndex;
                             switch (res)
                             {
+                                //Based on selection create an object
                                 case Residentials.Villa:
                                     estate_t = new Villa(rooms);
                                     break;
@@ -128,6 +128,7 @@ namespace REA
                         }
                         else
                         {
+                            //Show error
                             labelRooms.ForeColor = Color.Red;
                         }
                         
@@ -135,12 +136,17 @@ namespace REA
                     case Estates.Commercial:
                         if (!string.IsNullOrEmpty(txtSize.Text))
                         {
+                            //Reset error
                             labelSize.ForeColor = Color.Black;
+                            //Parse the size of building
                             int s = Int32.Parse(txtSize.Text);
+
+                            //Get the shop/warehouse type and selected building type
                             ShopType shopType = (ShopType)cbStore.SelectedIndex;
                             Comercials com = (Comercials)cbBuilding.SelectedIndex;
                             switch (com)
                             {
+                                //Create an object based on selection
                                 case Comercials.Shop:
                                     estate_t = new Shop(shopType, s);
                                     break;
@@ -152,14 +158,18 @@ namespace REA
                         }
                         else
                         {
+                            //Show error
                             labelSize.ForeColor = Color.Red;
                         }
                         break;
                     case Estates.Institutional:
+                        //Get selected Study field and  Building type
                         Institutionals ins = (Institutionals)cbBuilding.SelectedIndex;
                         StudyField studyField = (StudyField)cbStore.SelectedIndex;
                         switch (ins)
                         {
+
+                            //Create estate type
                             case Institutionals.School:
                                 estate_t = new School(studyField);
                                 break;
@@ -172,23 +182,25 @@ namespace REA
                 }
                 if(estate_t != null)
                 {
+                    //Set the index and increment it
                     estate_t.ID = indexing;
                     indexing++;
                     //street, zip, city, country
                     estate_t.Address = new Address(txtStreet.Text, txtZip.Text, txtCity.Text, (Countries)cbCountry.SelectedIndex);
+
+                    //Set the legal form
+                    estate_t.LegalForm = (LegalForm)cbLegal.SelectedIndex;
                     if (file.FileName != null)
                     {
                         estate_t.ImagePath = file.FileName;
                     }
                     em.Add(estate_t);
-
-                    Console.WriteLine(estate_t.ImagePath);
-                    //Console.WriteLine(estate_t.GetType());
                 }
 
             }
             else
             {
+                //Show error
                 labelError.Visible = true;
             }
 
@@ -196,15 +208,16 @@ namespace REA
             UpdateGUI();
         }
 
-        private void cbBuilding_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //None
-        }
-
         private void btnDeleteAll_Click(object sender, EventArgs e)
         {
             //Empty the list and refresh it.
             em.Empty();
+            txtCity.Text = "";
+            txtRooms.Text = "";
+            txtSize.Text = "";
+            txtStreet.Text = "";
+            txtZip.Text = "";
+            pictureBox1.Image = placeholder;
             UpdateGUI();
         }
 
@@ -242,7 +255,7 @@ namespace REA
                 catch (FormatException) { }
 
                 //Get the study field for institutional estates
-                StudyField studyField = (StudyField)cbStore.SelectedIndex;
+                StudyField studyField = (StudyField)cbStudy.SelectedIndex;
 
                 //Create updated objects based on the building type
                 switch (tipNew)
@@ -287,6 +300,9 @@ namespace REA
                 //reset the ID
                 updatedEntry.ID = lastEntry.ID;
 
+                //Set the legal form
+                updatedEntry.LegalForm = (LegalForm)cbLegal.SelectedIndex;
+
                 //Check if user has selected an image, if so, set it to a variable.
                 if (file.FileName != null)
                 {
@@ -310,10 +326,18 @@ namespace REA
         private void btnDelete_Click(object sender, EventArgs e)
         {
             //Delete current object or show an error box.
+
             if (!em.deleteCurrent())
             {
                 MessageBox.Show("There are no available Estates!");
+                return;
             }
+            txtCity.Text = "";
+            txtRooms.Text = "";
+            txtSize.Text = "";
+            txtStreet.Text = "";
+            txtZip.Text = "";
+            pictureBox1.Image = placeholder;
             //Refresh the list
             UpdateGUI();
         }
@@ -337,9 +361,8 @@ namespace REA
 
         private void btnCost_Click(object sender, EventArgs e)
         {
-            //TODO calculate cost lastEstate.Cost();
-            //Messagebox
-
+            //Display a message box with an estimated price of the estate
+            MessageBox.Show("The price of the estate is estimated around: " + em.getLastEntry().Cost().ToString() + "€");
         }
     }
 }

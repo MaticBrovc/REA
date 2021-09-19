@@ -38,5 +38,21 @@ namespace REA
             get { return size; }
             set { size = value; }
         }
+
+        public override double Cost()
+        {
+            //Completly basic calculation based on size and fixed value
+            int fixedCost = 15000;
+            double cost = fixedCost + (size * 25);
+
+            return cost;
+        }
+
+        public override string ToString()
+        {
+            return "(" + ID + ") " + this.GetType().Name + " - " + Address.ToString() + " Size: " + size + "m^2 Type: " + shopType.ToString();
+        }
+
+
     }
 }

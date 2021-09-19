@@ -3,99 +3,120 @@
   <Class Name="REA.Estate">
     <Position X="7" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAABAAAAAAggACAAAAAgAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAAAQgAAEAAAAAJAAAAEAggACAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Estate.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="REA.Residential">
-    <Position X="3.25" Y="6.25" Width="1.5" />
+    <Position X="3.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAEAAAABAAAAEAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Residential.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Commercial">
-    <Position X="7" Y="6.25" Width="1.5" />
+    <Position X="7" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAgABEAIAAQBAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Commercial.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Institutional">
-    <Position X="11.75" Y="6.25" Width="1.5" />
+    <Position X="11.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAABAAAAABAAAAAQAAAAAAAAA=</HashCode>
       <FileName>Classes\Institutional.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Villa">
-    <Position X="1.5" Y="8" Width="1.5" />
+    <Position X="1.5" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Villa.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Appartment">
-    <Position X="3.25" Y="8" Width="1.5" />
+    <Position X="3.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Appartment.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Townhouse">
-    <Position X="5" Y="8" Width="1.5" />
+    <Position X="5" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\townhouse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Shop">
-    <Position X="7" Y="8" Width="1.5" />
+    <Position X="7" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Shop.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Warehouse">
-    <Position X="8.75" Y="8" Width="1.5" />
+    <Position X="8.75" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Warehouse.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.School">
-    <Position X="11" Y="8" Width="1.5" />
+    <Position X="11" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\School.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.University">
-    <Position X="13" Y="8" Width="1.5" />
+    <Position X="13" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\University.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Rental">
-    <Position X="2.5" Y="9.75" Width="1.5" />
+    <Position X="2.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Rental.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="REA.Tenement">
-    <Position X="4.25" Y="9.75" Width="1.5" />
+    <Position X="4.25" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Classes\Tenement.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="REA.Person">
+    <Position X="11.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAABBAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="REA.Buyer">
+    <Position X="10.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Buyer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="REA.Seller">
+    <Position X="12.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Seller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Interface Name="REA.IEstate">
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAABAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAIAAAAAAAgAAAAAAAAJAAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>Interfaces\IEstate.cs</FileName>
     </TypeIdentifier>
   </Interface>

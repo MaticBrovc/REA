@@ -14,6 +14,8 @@ namespace REA
 
         string ImagePath { get; set; }
 
+        LegalForm LegalForm { get; set; }
+
         double Cost();
         //Cost of the estate function that could vary by different residental status.
     }
