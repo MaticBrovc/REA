@@ -9,13 +9,10 @@ namespace REA
     public class Buyer : Person
     {
 
-        private EstateManager boughtEstates = new EstateManager();
-
         public Buyer() { }
 
         public void Buy(Estate e)
         {
-            boughtEstates.Add(e);
         }
     }
 }

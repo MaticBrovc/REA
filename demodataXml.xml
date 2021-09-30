@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<ArrayOfEstate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Estate xsi:type="Villa">
+    <ID>6256</ID>
+    <Address />
+    <ImagePath>C:\Users\Username1999\Pictures\download.png</ImagePath>
+    <LegalForm>Ownership</LegalForm>
+    <NumberOfRooms>10</NumberOfRooms>
+  </Estate>
+  <Estate xsi:type="Rental">
+    <ID>6257</ID>
+    <Address />
+    <ImagePath>C:\Users\Username1999\Pictures\download.jfif</ImagePath>
+    <LegalForm>Ownership</LegalForm>
+    <NumberOfRooms>5</NumberOfRooms>
+  </Estate>
+  <Estate xsi:type="School">
+    <ID>6258</ID>
+    <Address />
+    <ImagePath>C:\Users\Username1999\Pictures\school.jfif</ImagePath>
+    <LegalForm>Ownership</LegalForm>
+    <StudyField>computer_science</StudyField>
+  </Estate>
+  <Estate xsi:type="Shop">
+    <ID>6259</ID>
+    <Address />
+    <ImagePath>C:\Users\Username1999\Pictures\apple store.jfif</ImagePath>
+    <LegalForm>Ownership</LegalForm>
+    <ShopType>food</ShopType>
+    <Size>1000</Size>
+  </Estate>
+</ArrayOfEstate>

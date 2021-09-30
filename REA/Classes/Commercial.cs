@@ -1,25 +1,13 @@
-﻿using System;
+﻿using REA.Enumerators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace REA
 {
-    //Enumerator with available choices for comercial estates
-    public enum Comercials
-    {
-        Shop,
-        Warehouse
-    }
 
-    //An enumerator that declares what type of Shop/Warehouse it is.
-    public enum ShopType
-    {
-        electronic,
-        food,
-        bike,
-    }
-
+    [Serializable]
     public abstract class Commercial : Estate
     {
         //Define private variables

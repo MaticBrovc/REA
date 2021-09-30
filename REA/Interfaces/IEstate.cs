@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using REA.Classes;
+using REA.Enumerators;
 
 namespace REA
 {
@@ -19,7 +20,7 @@ namespace REA
         double Cost();
         //Cost of the estate function that could vary by different residental status.
     }
-
+    [Serializable]
     public class Address
     {
         /* Properties of the class */
@@ -27,6 +28,9 @@ namespace REA
         string zip;
         string city;
         Countries country;
+
+        //Default constructor
+        public Address() { }
 
         //Constructor that gets all the necessary data to create an object with a full Address
         public Address(string street, string zip, string city, Countries country)
@@ -49,6 +53,31 @@ namespace REA
         public override string ToString()
         {
             return street + " " + zip + " " + city + " " + country.ToString();
+        }
+
+        //Method that returns the address in a form of a string array
+        public string[] getAdrress()
+        {
+            string[] s = { street, zip, city };
+            return s;
+        }
+        //Method that returns the country of the address
+        public Countries getCountry()
+        {
+            return country;
+        }
+
+        public Dictionary<string, Object> getParemeters()
+        {
+            Dictionary<string, Object> parms = new Dictionary<string, object>
+            {
+                { "street", street },
+                { "zip", zip },
+                { "city", city },
+                { "country", country }
+            };
+
+            return parms;
         }
     }
 }

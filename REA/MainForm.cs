@@ -1,9 +1,11 @@
 ﻿using REA.Classes;
+using REA.Enumerators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,8 +18,16 @@ namespace REA
         //Start indexing
         public int indexing = 6253;
 
-        //Declare a new EstateManager that will hold all the estate entries
-        private EstateManager em = new EstateManager();
+        //Save opened file
+        private string fromFile = "";
+
+        //Possibile Objects
+        private string[] residentials = {"Villa", "Rental", "Tenement", "Townhouse"};
+        private string[] comercials = { "Shop", "Warehouse" };
+        private string[] institutionals = { "School", "University" };
+
+        //Declare a new EstateManager that holds the list of all the Estates used in the program
+        private EstateManager em1 = new EstateManager();
 
         //Create a filedialog
         private OpenFileDialog file = new OpenFileDialog();
@@ -26,6 +36,7 @@ namespace REA
 
         public MainForm()
         {
+            this.KeyPreview = true;
             InitializeComponent();
 
             UpdateGUI();
@@ -40,6 +51,7 @@ namespace REA
 
 
         }
+
 
         private void cbEstate_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -73,13 +85,16 @@ namespace REA
 
             }
         }
-
+        /// <summary>
+        /// Refreshes all the values if needed
+        /// </summary>
+        /// <returns></returns>
         public void UpdateGUI()
         {
             //Clear the entire list
             lbEstates.Items.Clear();
             //Get new values
-            lbEstates.Items.AddRange(em.GetValues());
+            lbEstates.Items.AddRange(em1.ToStringArray());
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -194,7 +209,7 @@ namespace REA
                     {
                         estate_t.ImagePath = file.FileName;
                     }
-                    em.Add(estate_t);
+                    em1.Add(estate_t);
                 }
 
             }
@@ -211,33 +226,25 @@ namespace REA
         private void btnDeleteAll_Click(object sender, EventArgs e)
         {
             //Empty the list and refresh it.
-            em.Empty();
-            txtCity.Text = "";
-            txtRooms.Text = "";
-            txtSize.Text = "";
-            txtStreet.Text = "";
-            txtZip.Text = "";
-            pictureBox1.Image = placeholder;
+            em1.DeleteAll();
+            //Reset all the fields
+            resetWindowValues();
             UpdateGUI();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            //Zadnji zapis znotraj managerja drzi vrednost(tip zgradbe), če primerjam ta tip z novimi podatki in je novi drugačen od starega je objekt potrebno zamenjati.
-            //Če ni samo posodobi podatke.
-            Estate lastEntry = em.getLastEntry();
-            Estate updatedEntry = null;
-            if(lastEntry != null)
-            {
-                string tip = em.getLastEntry().GetType().Name;
-                string tipNew = cbBuilding.SelectedItem.ToString();
+            Estate le = em1.GetAt(lbEstates.SelectedIndex);
 
-                //Instead of updating just create a new object an replace it, but leave the same ID.
-                //TODO
+            Estate updatedEntry = null;
+            if(le != null)
+            {
+                string tipNew = cbBuilding.SelectedItem.ToString();
 
                 //Set default values to variable
                 int noRooms = 0;
                 int s = 0;
+                
 
                 //Get selected type of shop
                 ShopType shopType = (ShopType)cbStore.SelectedIndex;
@@ -298,7 +305,7 @@ namespace REA
                 updatedEntry.Address = new Address(txtStreet.Text, txtZip.Text, txtCity.Text, (Countries)cbCountry.SelectedIndex);
 
                 //reset the ID
-                updatedEntry.ID = lastEntry.ID;
+                updatedEntry.ID = le.ID;
 
                 //Set the legal form
                 updatedEntry.LegalForm = (LegalForm)cbLegal.SelectedIndex;
@@ -309,7 +316,7 @@ namespace REA
                     updatedEntry.ImagePath = file.FileName;
                 }
                 //Update the entry
-                em.updateLast(updatedEntry);
+                em1.ChangeAt(updatedEntry, lbEstates.SelectedIndex);
             }
             else
             {
@@ -322,22 +329,17 @@ namespace REA
             
 
         }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            //Delete current object or show an error box.
-
-            if (!em.deleteCurrent())
+            //Check if deleted
+            if (!em1.DeleteAt(lbEstates.SelectedIndex))
             {
+                //Show error if not deleted
                 MessageBox.Show("There are no available Estates!");
                 return;
             }
-            txtCity.Text = "";
-            txtRooms.Text = "";
-            txtSize.Text = "";
-            txtStreet.Text = "";
-            txtZip.Text = "";
-            pictureBox1.Image = placeholder;
+            //Empty all the values
+            resetWindowValues();
             //Refresh the list
             UpdateGUI();
         }
@@ -354,7 +356,7 @@ namespace REA
                 //Stretch the image so it fits in the frame
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
                 //Set a fixed size of the image
-                pictureBox1.Size = new System.Drawing.Size(247, 229);
+                pictureBox1.Size = new System.Drawing.Size(388, 318);
             }
            
         }
@@ -362,7 +364,281 @@ namespace REA
         private void btnCost_Click(object sender, EventArgs e)
         {
             //Display a message box with an estimated price of the estate
-            MessageBox.Show("The price of the estate is estimated around: " + em.getLastEntry().Cost().ToString() + "€");
+            if(em1.GetAt(lbEstates.SelectedIndex) != null)
+            {
+                MessageBox.Show("The price of the estate is estimated around: " + em1.GetAt(lbEstates.SelectedIndex).Cost().ToString() + "€");
+            }
+            else
+            {
+                MessageBox.Show("Please add or select an estate!");
+            }
+            
+        }
+
+        /// <summary>
+        /// Fill out all the fields based on the provided index.
+        /// </summary>
+        /// <param name="index">.</param>
+        /// <returns></returns>
+        private void fillFields(int index)
+        {
+            //Empty all the existing values
+            resetWindowValues();
+
+            //Get the selected estate
+            Estate e = em1.GetAt(index);
+            if(e != null)
+            {
+                //Select the legal form
+                cbLegal.SelectedItem = e.LegalForm;
+
+                //Get base type and type of estate
+                string baseName = e.GetType().BaseType.Name;
+                string name = e.GetType().Name;
+
+                //Select the type of estate
+                if (baseName == "Appartment") baseName = "Residential";
+                cbEstate.SelectedItem = (Estates)Enum.Parse(typeof(Estates), baseName);
+                switch (baseName)
+                {
+                    //Based on base type set building types and other parameters in regard to that type
+                    case "Residential":
+                        cbBuilding.SelectedItem = (Residentials)Enum.Parse(typeof(Residentials), name);
+                        txtRooms.Text = ((Residential)e).NumberOfRooms.ToString();
+                        break;
+                    case "Commercial":
+                        cbBuilding.SelectedItem = (Comercials)Enum.Parse(typeof(Comercials), name);
+                        txtSize.Text = ((Commercial)e).Size.ToString();
+                        cbStore.SelectedItem = ((Commercial)e).ShopType;
+                        break;
+                    case "Institutional":
+                        cbBuilding.SelectedItem = (Institutionals)Enum.Parse(typeof(Institutionals), name);
+                        cbStudy.SelectedItem = ((Institutional)e).StudyField;
+                        break;
+                }
+                //Get the address and break it into pieces
+
+                //Get the dictionary values from the address field
+                Dictionary<string, Object> addr = e.Address.getParemeters();
+                //To use values use Cast
+                txtCity.Text = (string)addr["city"];
+                txtZip.Text = (string)addr["zip"];
+                txtStreet.Text = (string)addr["street"];
+                cbCountry.SelectedItem = (Countries)addr["country"];
+
+                //If image exists load it othervise set a placeholder
+                if (File.Exists(e.ImagePath))
+                {
+                    pictureBox1.Image = Image.FromFile(e.ImagePath);
+                    pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pictureBox1.Size = new System.Drawing.Size(388, 318);
+                }
+                else
+                {
+                    pictureBox1.Image = placeholder;
+                }
+            }
+        }
+
+        private void lbEstates_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Fill fields with data from selected object
+            int selection = lbEstates.SelectedIndex;
+            fillFields(selection);
+            
+        }
+
+        /// <summary>
+        /// Resets all the values
+        /// </summary>
+        /// <returns></returns>
+        private void resetWindowValues()
+        {
+            // reset all the comboboxes
+            cbBuilding.SelectedIndex = 0;
+            cbCountry.SelectedIndex = 0;
+            cbEstate.SelectedIndex = 0;
+            cbLegal.SelectedIndex = 0;
+            cbStore.SelectedIndex = 0;
+            cbStudy.SelectedIndex = 0;
+
+            //Reset all the text boxes
+            txtCity.Text = "";
+            txtRooms.Text = "";
+            txtSize.Text = "";
+            txtStreet.Text = "";
+            txtZip.Text = "";
+
+            //Reset image
+            pictureBox1.Image = placeholder;
+
+            //ResetGUI
+        }
+
+        /// <summary>
+        /// Resets all the values and empties the lists
+        /// </summary>
+        /// <returns></returns>
+        private void newWindow()
+        {
+            //Check if any value is filled
+            if (!string.IsNullOrEmpty(txtRooms.Text)
+                || !string.IsNullOrEmpty(txtCity.Text)
+                || !string.IsNullOrEmpty(txtSize.Text)
+                || !string.IsNullOrEmpty(txtStreet.Text)
+                || !string.IsNullOrEmpty(txtZip.Text)
+                || em1.Count > 0)
+            {
+                //Get confirmation of user
+                DialogResult dr = MessageBox.Show("Are you sure you want to remove all the entries?", "Delete in progress", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information);
+
+                //If Ok, reset all valeus
+                if (dr == DialogResult.Yes)
+                {
+                    em1.DeleteAll();
+                    resetWindowValues();
+                }
+            }
+            //If no valeus exist, reset the fields
+            else
+            {
+                resetWindowValues();
+            }
+            //Update GUI
+            fromFile = "";
+            UpdateGUI();
+        }
+
+        private void newNToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            newWindow();  
+        }
+
+        /// <summary>
+        /// Opens file dialog to select the estates
+        /// </summary>
+        /// <returns></returns>
+        private void openFile()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Generic Files .dat|*.dat";
+            openFileDialog.ShowDialog();
+            string path = openFileDialog.FileName;
+            if (path != "")
+            {
+                if (!em1.BinaryDeSerialize(path)) MessageBox.Show("There was an error", "Error");
+                else { 
+                    fromFile = path; 
+                    if(em1.Count > 0)indexing = em1.GetAt(em1.Count - 1).ID + 1;
+                }
+                UpdateGUI();
+            }
+        }
+
+        private void openOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFile();
+        }
+
+        /// <summary>
+        /// Saves data into current opened file
+        /// </summary>
+        /// <returns></returns>
+        private void save()
+        {
+            if (!String.IsNullOrEmpty(fromFile))
+            {
+                if (em1.BinarySerialize(fromFile)) MessageBox.Show("Successfuly saved!");
+                else MessageBox.Show("There are no Estates to save!");
+            }
+            else saveAs();
+        }
+
+        /// <summary>
+        /// Opens file dialog and saves the data from EstateManager
+        /// </summary>
+        /// <returns></returns>
+        private void saveAs()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Generic Files .dat|*.dat";
+            saveFileDialog1.Title = "Save The Estates";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                if (em1.BinarySerialize(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("Successfully saved");
+                }
+                else
+                {
+                    MessageBox.Show("There are no Estates to save!");
+                }
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveAs();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Control == true)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.N:
+                        newWindow();
+                        break;
+                    case Keys.O:
+                        openFile();
+                        break;
+                    case Keys.S:
+                        save();
+                        break;
+                }
+                
+            }
+        }
+
+        /// <summary>
+        /// Opens file dialog to select xml file to save the estates
+        /// </summary>
+        /// <returns></returns>
+        private void exportToXML()
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "XML files .xml|*.xml";
+            saveFileDialog1.Title = "Save The Estates";
+            saveFileDialog1.ShowDialog();
+            if (saveFileDialog1.FileName != "")
+            {
+                if (em1.XMLSerialize(saveFileDialog1.FileName))
+                {
+                    MessageBox.Show("Successfully saved");
+                }
+                else
+                {
+                    MessageBox.Show("There are no Estates to save!");
+                }
+            }
+        }
+
+        private void exportToXMLFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            exportToXML();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void saveSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            save();
         }
     }
 }

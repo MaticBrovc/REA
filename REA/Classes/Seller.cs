@@ -8,12 +8,10 @@ namespace REA
 {
     public class Seller : Person
     {
-        private EstateManager estatesForSale = new EstateManager();
 
         public Seller() { }
 
         public void Sell(Estate e) {
-            estatesForSale.Add(e);
         }
 
 

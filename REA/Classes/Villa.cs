@@ -5,6 +5,7 @@ using System.Text;
 
 namespace REA
 {
+    [Serializable]
     public class Villa : Residential
     {
         //Default constructor

@@ -63,12 +63,21 @@
   <ItemGroup>
     <Compile Include="Classes\Buyer.cs" />
     <Compile Include="Classes\Appartment.cs" />
-    <Compile Include="Classes\Countries.cs" />
+    <Compile Include="Enumerators\Comercials.cs" />
+    <Compile Include="Enumerators\Countries.cs" />
     <Compile Include="Classes\Estate.cs" />
     <Compile Include="Classes\Commercial.cs" />
-    <Compile Include="Classes\EstateManager.cs" />
     <Compile Include="Classes\Institutional.cs" />
+    <Compile Include="Enumerators\Estates.cs" />
+    <Compile Include="Enumerators\Institutionals.cs" />
+    <Compile Include="Enumerators\LegalForm.cs" />
+    <Compile Include="Enumerators\Residentials.cs" />
+    <Compile Include="Enumerators\ShopType.cs" />
+    <Compile Include="Enumerators\StudyField.cs" />
+    <Compile Include="Classes\EstateManager.cs" />
+    <Compile Include="Interfaces\IListManager.cs" />
     <Compile Include="Interfaces\IEstate.cs" />
+    <Compile Include="Classes\ListManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

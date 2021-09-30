@@ -5,14 +5,7 @@ using System.Text;
 
 namespace REA
 {
-    //Enumerator that has all the available choices for residential estates
-    public enum Residentials
-    {
-        Villa,
-        Rental,
-        Tenement,
-        Townhouse
-    }
+    [Serializable]
     public class Residential : Estate
     {
         //private variable

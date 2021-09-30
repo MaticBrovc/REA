@@ -1,26 +1,22 @@
-﻿using System;
+﻿using REA.Enumerators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace REA
 {
-    //Enumerator used for comboboxes and easier navigation through them
-    public enum Estates
-    {
-        Residential,
-        Commercial,
-        Institutional
-    }
-
-    public enum LegalForm
-    {
-        Ownership,
-        Tenement,
-        Rental
-    }
-
-
+    [Serializable]
+    //XML includes so XML serialization is possible with all objects.
+    [XmlInclude(typeof(Villa))]
+    [XmlInclude(typeof(Townhouse))]
+    [XmlInclude(typeof(Rental))]
+    [XmlInclude(typeof(Tenement))]
+    [XmlInclude(typeof(Shop))]
+    [XmlInclude(typeof(Warehouse))]
+    [XmlInclude(typeof(School))]
+    [XmlInclude(typeof(University))]
     public abstract class Estate : IEstate
     {
         //Define private variables from the Interface
